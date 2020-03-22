@@ -1,0 +1,46 @@
+1. Matrix keyboard readout procedure with debouncing and multiple keys pressed option
+
+2. Keys mapping with multiple keys pressed option
+
+3. Transfering pressed key into HID usage ID code
+
+4. Sending pressed keys via USB
+
+Note: Construct library in such way that the GPIO and USB functions will have to be pointed to in order to provide
+transferability between platforms. 
+That is, create Keyboard_GPIO_Read, Keyboard_GPIO_Write and Keyboard_HID_Send functions.
+In them point to the functions used by specific microcontroller.
+
+So, for example:
+
+uint8_t Keyboard_GPIO_Read()
+{
+	return HAL_GPIO_Read(KEYBOARD_PORT);
+}
+
+And for readout in Keyboard_Read_Matrix:
+
+uint8_t Keyboard_Read_Matrix()
+{
+ .
+ .
+ .
+ readout = Keyboard_GPIO_Read();
+ .
+ .
+ .
+}
+
+This may inflate the code a bit, but will provide modularity and transferability.
+You may want to define the user functions in main instead of the library.
+
+Also, MatrixKeyboard is the main library file. But it may change as the name suggests that it should only
+be a matrix keyboard library, not the USB Keyboard.
+
+Create a type in form of a structure in this library with functions in its field. Then in user program 
+you will be able to create a variable of this type and assign proper functions.
+
+To assign specific pins and ports to column and row number, create an ENUM.
+This will be done in user layer. Like so:
+enum EN_Rows_Pin {PIN2, PIN3, PIN1, PIN2}
+enum EN_Rows_Port {PORTA, PORTA, PORTC, PORTB}

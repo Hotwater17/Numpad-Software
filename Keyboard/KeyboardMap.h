@@ -1,0 +1,20 @@
+/*
+ * KeyboardMap.h
+ *
+ *  Created on: 21 mar 2020
+ *      Author: Hotwater
+ */
+
+#define KEYBOARD_NUMBER_OF_KEYS	17
+#define KEYBOARD_COLUMNS	4
+#define KEYBOARD_ROWS		5
+
+uint8_t keyboardIDMap[KEYBOARD_ROWS][KEYBOARD_COLUMNS] =
+{
+		//COL 0					COL 1				COL 2				COL 3
+		{KEY_ID_PAD_NUMLOCK,	KEY_ID_PAD_SLASH,	KEY_ID_PAD_STAR,	KEY_ID_PAD_MINUS},	//ROW 0
+		{KEY_ID_PAD_7,			KEY_ID_PAD_8,		KEY_ID__PAD_9,		KEY_ID_PAD_PLUS},	//ROW 1
+		{KEY_ID_PAD_4,			KEY_ID_PAD_5,		KEY_ID_PAD_6,		KEY_ID_NOKEY},		//ROW 2
+		{KEY_ID_PAD_1,			KEY_ID_PAD_2,		KEY_ID_PAD_3,		KEY_ID_PAD_ENTER},	//ROW 3
+		{KEY_ID_PAD_0,			KEY_ID_PAD_DOT,		KEY_ID_NOKEY,		KEY_ID_NOKEY}		//ROW 4
+};
