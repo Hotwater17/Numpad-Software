@@ -63,22 +63,24 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 
 void User_Key_Init()
 {
+	  __HAL_RCC_GPIOA_CLK_ENABLE();
+	  __HAL_RCC_GPIOB_CLK_ENABLE();
 	/*
 	 * Rows
 	 */
 	GPIO_InitTypeDef keyGPIOStruct;
 	keyGPIOStruct.Mode = GPIO_MODE_INPUT;
 	keyGPIOStruct.Pull = GPIO_PULLDOWN;
-	keyGPIOStruct.Pin = GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
-	HAL_GPIO_Init(GPIOB, &keyGPIOStruct);
+	keyGPIOStruct.Pin = ROW4_Pin | ROW3_Pin | ROW2_Pin | ROW1_Pin | ROW0_Pin;
+	HAL_GPIO_Init(ROWS_GPIO_Port, &keyGPIOStruct);
 
 	/*
 	 * Columns
 	 */
 	keyGPIOStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	keyGPIOStruct.Pull = GPIO_NOPULL;
-	keyGPIOStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
-	HAL_GPIO_Init(GPIOA, &keyGPIOStruct);
+	keyGPIOStruct.Pin = COL0_Pin | COL1_Pin | COL2_Pin | COL3_Pin;
+	HAL_GPIO_Init(COLUMNS_GPIO_Port, &keyGPIOStruct);
 
 }
 
@@ -93,22 +95,22 @@ void User_Key_Write(uint8_t column, bool state)
 	{
 		case 0:
 		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, state);
+			HAL_GPIO_WritePin(COLUMNS_GPIO_Port, COL0_Pin, state);
 			break;
 		}
 		case 1:
 		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, state);
+			HAL_GPIO_WritePin(COLUMNS_GPIO_Port, COL1_Pin, state);
 			break;
 		}
 		case 2:
 		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, state);
+			HAL_GPIO_WritePin(COLUMNS_GPIO_Port, COL2_Pin, state);
 			break;
 		}
 		case 3:
 		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, state);
+			HAL_GPIO_WritePin(COLUMNS_GPIO_Port, COL3_Pin, state);
 			break;
 		}
 		default:
@@ -126,27 +128,27 @@ bool User_Key_Read(uint8_t row)
 	{
 		case 0:
 		{
-			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_15);
+			state = HAL_GPIO_ReadPin(ROWS_GPIO_Port, ROW0_Pin);
 			break;
 		}
 		case 1:
 		{
-			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_14);
+			state = HAL_GPIO_ReadPin(ROWS_GPIO_Port, ROW1_Pin);
 			break;
 		}
 		case 2:
 		{
-			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13);
+			state = HAL_GPIO_ReadPin(ROWS_GPIO_Port, ROW2_Pin);
 			break;
 		}
 		case 3:
 		{
-			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
+			state = HAL_GPIO_ReadPin(ROWS_GPIO_Port, ROW3_Pin);
 			break;
 		}
 		case 4:
 		{
-			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11);
+			state = HAL_GPIO_ReadPin(ROWS_GPIO_Port, ROW4_Pin);
 			break;
 		}
 		default:
@@ -159,12 +161,12 @@ bool User_Key_Read(uint8_t row)
 
 }
 
-void Key_HID_Init()
+void User_Key_HID_Init()
 {
 	MX_USB_DEVICE_Init();
 }
 
-void Key_HID_Send(uint8_t *report)
+uint8_t User_Key_HID_Send(uint8_t *report)
 {
 	USBD_HID_SendReport(&hUsbDeviceFS, report, REPORT_SIZE);
 }
@@ -177,9 +179,10 @@ void Key_HID_Send(uint8_t *report)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	volatile pressed_keys_array_t keysArray;
-	volatile uint8_t pressedKeysNumber = 0;
 	keyboard_gpio_config_t keyGpioInit;
+	keyboard_hid_config_t hidInit;
+	pressed_keys_array_t keysArray;
+	uint8_t pressedKeysNumber = 0;
 	uint8_t temporaryReport[REPORT_SIZE] = {0};
   /* USER CODE END 1 */
 
@@ -200,15 +203,19 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  Key_HID_Init();
+
+
   /* USER CODE BEGIN 2 */
   keyGpioInit.keyboardGPIOInitFunction = User_Key_Init;
   keyGpioInit.keyboardDebounceFunction = User_Key_Debounce;
   keyGpioInit.keyboardGPIOReadFunction = User_Key_Read;
   keyGpioInit.keyboardGPIOWriteFunction = User_Key_Write;
 
+  hidInit.keyboardHIDInit = User_Key_HID_Init;
+  hidInit.keyboardHIDSend = User_Key_HID_Send;
+
   Keyboard_GPIO_Init(&keyGpioInit);
+  Keyboard_HID_Init(&hidInit);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -222,7 +229,7 @@ int main(void)
 	  {
 		  temporaryReport[cnt+2] = keysArray.actualArray[cnt];
 	  }
-	  Key_HID_Send(temporaryReport);
+	  Keyboard_HID_Send(temporaryReport);
 
   }
   /* USER CODE END 3 */

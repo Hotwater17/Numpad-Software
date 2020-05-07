@@ -61,6 +61,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
+#define COLUMNS_GPIO_Port GPIOA
 #define COL0_Pin GPIO_PIN_0
 #define COL0_GPIO_Port GPIOA
 #define COL1_Pin GPIO_PIN_1
@@ -69,6 +71,8 @@ void Error_Handler(void);
 #define COL2_GPIO_Port GPIOA
 #define COL3_Pin GPIO_PIN_3
 #define COL3_GPIO_Port GPIOA
+
+#define ROWS_GPIO_Port GPIOB
 #define ROW4_Pin GPIO_PIN_11
 #define ROW4_GPIO_Port GPIOB
 #define ROW3_Pin GPIO_PIN_12
