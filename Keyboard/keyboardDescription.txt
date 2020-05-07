@@ -44,3 +44,6 @@ To assign specific pins and ports to column and row number, create an ENUM.
 This will be done in user layer. Like so:
 enum EN_Rows_Pin {PIN2, PIN3, PIN1, PIN2}
 enum EN_Rows_Port {PORTA, PORTA, PORTC, PORTB}
+
+Should I add a function wrapping everything up? Something like "Keyboard_Cycle"?
+That will automatically read matrix and send via USB.

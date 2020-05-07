@@ -23,7 +23,10 @@ Src/stm32f0xx_hal_msp.o: ../Src/stm32f0xx_hal_msp.c ../Inc/main.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pcd.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pcd_ex.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h \
- ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h
+ ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
+ C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/MatrixKeyboard.h \
+ C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeysUseID.h \
+ C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeyboardMap.h
 
 ../Inc/main.h:
 
@@ -76,3 +79,9 @@ Src/stm32f0xx_hal_msp.o: ../Src/stm32f0xx_hal_msp.c ../Inc/main.h \
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h:
 
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h:
+
+C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/MatrixKeyboard.h:
+
+C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeysUseID.h:
+
+C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeyboardMap.h:

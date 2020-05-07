@@ -26,6 +26,9 @@ Src/usb_device.o: ../Src/usb_device.c ../Inc/usb_device.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
  ../Inc/usbd_conf.h ../Inc/main.h \
+ C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/MatrixKeyboard.h \
+ C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeysUseID.h \
+ C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeyboardMap.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h \
@@ -92,6 +95,12 @@ Src/usb_device.o: ../Src/usb_device.c ../Inc/usb_device.h \
 ../Inc/usbd_conf.h:
 
 ../Inc/main.h:
+
+C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/MatrixKeyboard.h:
+
+C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeysUseID.h:
+
+C:/Users/Hotwater/Documents/CubeIDE/Numpad/Keyboard/KeyboardMap.h:
 
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h:
 

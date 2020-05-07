@@ -37,9 +37,6 @@ Numpad.list \
 OBJCOPY_HEX += \
 Numpad.hex \
 
-OBJCOPY_BIN += \
-Numpad.bin \
-
 
 # All Target
 all: Numpad.elf secondary-outputs
@@ -65,17 +62,12 @@ Numpad.hex: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Numpad.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Numpad.bin"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
 	-$(RM) *
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 .PHONY: all clean dependents
 .SECONDARY:

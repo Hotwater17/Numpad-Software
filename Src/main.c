@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_device.h"
+#include "MatrixKeyboard.c"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -29,7 +30,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define REPORT_SIZE	8
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -53,11 +54,120 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
+extern USBD_HandleTypeDef hUsbDeviceFS;
+
 /* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
+/* Private user code ---------------- -----------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void User_Key_Init()
+{
+	/*
+	 * Rows
+	 */
+	GPIO_InitTypeDef keyGPIOStruct;
+	keyGPIOStruct.Mode = GPIO_MODE_INPUT;
+	keyGPIOStruct.Pull = GPIO_PULLDOWN;
+	keyGPIOStruct.Pin = GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	HAL_GPIO_Init(GPIOB, &keyGPIOStruct);
+
+	/*
+	 * Columns
+	 */
+	keyGPIOStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	keyGPIOStruct.Pull = GPIO_NOPULL;
+	keyGPIOStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
+	HAL_GPIO_Init(GPIOA, &keyGPIOStruct);
+
+}
+
+void User_Key_Debounce(uint16_t time)
+{
+	HAL_Delay(time);
+}
+
+void User_Key_Write(uint8_t column, bool state)
+{
+	switch(column)
+	{
+		case 0:
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, state);
+			break;
+		}
+		case 1:
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, state);
+			break;
+		}
+		case 2:
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, state);
+			break;
+		}
+		case 3:
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, state);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+}
+
+bool User_Key_Read(uint8_t row)
+{
+	bool state = false;
+
+	switch(row)
+	{
+		case 0:
+		{
+			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_15);
+			break;
+		}
+		case 1:
+		{
+			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_14);
+			break;
+		}
+		case 2:
+		{
+			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13);
+			break;
+		}
+		case 3:
+		{
+			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
+			break;
+		}
+		case 4:
+		{
+			state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+
+	return state;
+
+}
+
+void Key_HID_Init()
+{
+	MX_USB_DEVICE_Init();
+}
+
+void Key_HID_Send(uint8_t *report)
+{
+	USBD_HID_SendReport(&hUsbDeviceFS, report, REPORT_SIZE);
+}
 /* USER CODE END 0 */
 
 /**
@@ -67,9 +177,11 @@ static void MX_GPIO_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	volatile pressed_keys_array_t keysArray;
+	volatile uint8_t pressedKeysNumber = 0;
+	keyboard_gpio_config_t keyGpioInit;
+	uint8_t temporaryReport[REPORT_SIZE] = {0};
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -89,9 +201,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USB_DEVICE_Init();
+  Key_HID_Init();
   /* USER CODE BEGIN 2 */
+  keyGpioInit.keyboardGPIOInitFunction = User_Key_Init;
+  keyGpioInit.keyboardDebounceFunction = User_Key_Debounce;
+  keyGpioInit.keyboardGPIOReadFunction = User_Key_Read;
+  keyGpioInit.keyboardGPIOWriteFunction = User_Key_Write;
 
+  Keyboard_GPIO_Init(&keyGpioInit);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,8 +216,14 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
+	  pressedKeysNumber = Keyboard_Matrix_Read(&keysArray);
+	  for(uint8_t cnt = 0; cnt < REPORT_SIZE; cnt++)
+	  {
+		  temporaryReport[cnt+2] = keysArray.actualArray[cnt];
+	  }
+	  Key_HID_Send(temporaryReport);
+
   }
   /* USER CODE END 3 */
 }
