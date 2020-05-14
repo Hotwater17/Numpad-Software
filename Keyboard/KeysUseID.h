@@ -14,7 +14,7 @@
 #define KEY_ID_NOKEY	0
 
 /*
- * Upper case letters
+ * Letters
  */
 
 #define KEY_ID_A	0x04
@@ -44,10 +44,6 @@
 #define KEY_ID_Y	0x1C
 #define KEY_ID_Z	0x1D
 
-/*
- * Lower case letters
- */
-
 
 
 /*
@@ -69,33 +65,33 @@
  * Special characters
  */
 #define KEY_ID_EXCLAMATION	0x1E
-#define KEY_ID_AT		0x1F
-#define KEY_ID_HASH		0x20
-#define KEY_ID_DOLLAR	0x21
-#define KEY_ID_PERCENT	0x22
+#define KEY_ID_AT			0x1F
+#define KEY_ID_HASH			0x20
+#define KEY_ID_DOLLAR		0x21
+#define KEY_ID_PERCENT		0x22
 #define KEY_ID_CIRCUMFLEX	0x23
 #define KEY_ID_AMPERSAND	0x24
-#define KEY_ID_STAR		0x25
-#define KEY_ID_LBRACKET	0x26
-#define KEY_ID_RBRACKET	0x27
-#define KEY_ID_ENTER	0x28
-#define KEY_ID_ESCAPE	0x29
-#define KEY_ID_DELETE	0x2A
-#define KEY_ID_TAB		0x2B
-#define KEY_ID_SPACE	0x2C
-#define KEY_ID_MINUS	0x2D
+#define KEY_ID_STAR			0x25
+#define KEY_ID_LBRACKET		0x26
+#define KEY_ID_RBRACKET		0x27
+#define KEY_ID_ENTER		0x28
+#define KEY_ID_ESCAPE		0x29
+#define KEY_ID_DELETE		0x2A
+#define KEY_ID_TAB			0x2B
+#define KEY_ID_SPACE		0x2C
+#define KEY_ID_MINUS		0x2D
 #define KEY_ID_UNDERSCORE	0x2D
-#define KEY_ID_PLUS		0x2E
-#define KEY_ID_EQUAL	0x2E
+#define KEY_ID_PLUS			0x2E
+#define KEY_ID_EQUAL		0x2E
 #define KEY_ID_LSBRACKET	0x2F
 #define KEY_ID_LCBRACKET	0x2F
 #define KEY_ID_RSBRACKET	0x30
 #define KEY_ID_RCBRACKET	0x30
 #define KEY_ID_BACKSLASH	0x31
-#define KEY_ID_COLON	0x33
+#define KEY_ID_COLON		0x33
 #define KEY_ID_SEMICOLON	0x33
 
-#define KEY_ID_NUMLOCK	0x53
+#define KEY_ID_NUMLOCK		0x53
 
 /*
  * Keypad

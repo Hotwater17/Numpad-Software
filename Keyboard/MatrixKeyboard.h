@@ -11,7 +11,7 @@
 #define __MATRIX_KEYBOARD_H
 
 #include "KeysUseID.h"
-#include "KeyboardMap.h"
+
 
 #define KEYBOARD_NUMBER_OF_KEYS	17
 #define KEYBOARD_COLUMNS	4

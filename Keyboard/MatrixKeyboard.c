@@ -78,7 +78,7 @@ uint8_t Keyboard_Matrix_Read(pressed_keys_array_t *pressedArray)
 	for(columnCounter = 0; columnCounter < KEYBOARD_COLUMNS; columnCounter++)
 	{
 		Keyboard_Column_Activate(columnCounter);
-		//Keyboard_Debounce(KEYBOARD_DEBOUNCE_MS);
+
 		for(rowCounter = 0; rowCounter < KEYBOARD_ROWS; rowCounter++)
 		{
 			if(Keyboard_Row_Read(rowCounter) == true)
